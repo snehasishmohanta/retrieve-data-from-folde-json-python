@@ -37,3 +37,43 @@ with open(file1) as text:
                 if auto_prefix in query:
                         query = query.replace(auto_prefix, "")
                         print file2["requestDate"],"-",query.encode('utf-8')
+
+
+
+#below code will print all the require data and print if TRUE if it contain the UNICODE and print False if it doesn't contain
+
+
+import re
+import os
+import json
+auto_prefix = u'\u200B'
+path1 = "/home/snehasish/log/search1"
+path2 = "/home/snehasish/log/search2"
+for path, dirs, files in os.walk(path1):
+        for data in files:
+                with open("/home/snehasish/log/search1/"+data) as text:
+                        for line in text:
+                                file1 = json.loads(line)
+                                try:
+                                        query = (file1["appData"]["_request_params"]["params"]["q"])[0]
+                                        if auto_prefix in query:
+                                                query = query.replace(auto_prefix, "")
+                                                print file1["requestDate"],",",query.encode('utf-8'), ", TRUE"
+                                        else:
+                                                print file1["requestDate"],",",query.encode('utf-8'), ", FALSE"
+                                except KeyError:
+                                        pass
+for path, dirs, files in os.walk(path2):
+        for data in files:
+                with open("/home/snehasish/log/search2/"+data) as text:
+                        for line in text:
+                                file1 = json.loads(line)
+                                try:
+                                        query = (file1["appData"]["_request_params"]["params"]["q"])[0]
+                                        if auto_prefix in query:
+                                                query = query.replace(auto_prefix, "")
+                                                print file1["requestDate"],",",query.encode('utf-8'), ", TRUE"
+                                        else:
+                                                print file1["requestDate"],",",query.encode('utf-8'), ", FALSE"
+                                except KeyError:
+                                        pass
